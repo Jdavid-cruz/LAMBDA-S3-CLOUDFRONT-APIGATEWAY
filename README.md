@@ -1,67 +1,57 @@
-Proyecto: Registro de usuarios usando Lambda + S3 + API Gateway + CloudFront
+Proyecto: Registro de usuarios usando Lambda, S3, API Gateway y DynamoDB
 
-Este proyecto lo hice para seguir practicando arquitectura moderna en AWS, pero esta vez usando solo servicios serverless. Desplegué todo con Terraform y el objetivo fue crear una pequeña aplicación web donde los usuarios se registran a través de un formulario, y los datos son procesados por una función Lambda.
+Este proyecto lo hice para seguir practicando arquitectura moderna en AWS, pero esta vez usando solo servicios serverless. El objetivo fue crear una aplicación sencilla donde los usuarios se registran a través de un formulario web, y esos datos son procesados por una función Lambda que los guarda en DynamoDB.
 
-Todo se entrega con un bucket S3 para el frontend, distribuido con CloudFront, y expuesto por medio de API Gateway que conecta con la Lambda.
+Todo el backend está construido con Lambda y expuesto a través de API Gateway. El frontend (formulario HTML + CSS) está alojado en un bucket S3. Todo el despliegue lo hice usando Terraform para automatizar desde la infraestructura hasta los permisos.
 
-Tecnologías utilizadas
+Además, utilicé IAM para crear un rol que le da permiso a la Lambda de escribir en DynamoDB. Definí ese rol y su política directamente en el código de Terraform, y lo asocié a la función Lambda.
 
-    AWS Lambda para ejecutar el backend sin servidor
+Tecnologías utilizadas:
 
-    Amazon S3 para alojar el frontend (HTML + CSS)
+    AWS Lambda para ejecutar el backend sin servidores
 
-    Amazon CloudFront para distribuir el contenido estático con mejor rendimiento
+    Amazon S3 para alojar los archivos HTML y CSS
 
-    API Gateway para exponer la función Lambda mediante HTTP
+    API Gateway para recibir las peticiones del formulario
 
-    DynamoDB para guardar los registros de usuarios
+    DynamoDB para almacenar los registros de usuario
 
-    Terraform para automatizar todo el despliegue
+    IAM para gestionar los permisos que Lambda necesita
 
-    HTML + CSS para el formulario
+    Terraform para definir y desplegar toda la infraestructura
 
-    Python para la función Lambda
+    HTML y CSS para la interfaz del formulario
 
-Estructura del proyecto
+    Python para escribir la función Lambda
 
-lambda-s3-cloudfront-api/
+Estructura del proyecto:
+
+lambda-s3-api/
 ├── index.html              -> Formulario principal
 ├── styles.css              -> Estilos del formulario
-├── error.html              -> Vista de error
-├── success.html            -> Vista de éxito
-├── lambda_function.py      -> Lógica en Python de la Lambda
-├── main.tf                 -> Infraestructura definida con Terraform
-├── .gitignore              -> Archivos ignorados
-└── README.md               -> Este archivo
+├── error.html              -> Vista en caso de fallo
+├── success.html            -> Vista en caso de éxito
+├── lambda_function.py      -> Código de la función Lambda en Python
+├── main.tf                 -> Infraestructura escrita en Terraform
+├── .gitignore              -> Archivos que no deben subirse al repo
+└── README.md               -> Esta explicación
 
-Arquitectura
+Cómo funciona todo:
 
-    El frontend estático se sube a un bucket S3
+El formulario envía los datos con fetch() a una URL de API Gateway. Esa URL está conectada con una función Lambda que toma los datos, los valida y los guarda en la tabla DynamoDB. Para que Lambda tenga permisos de acceso a la base de datos, le asocié un rol IAM con una política que permite hacer PutItem en la tabla.
 
-    S3 está protegido y solo accesible mediante CloudFront
+Todo esto está desplegado con Terraform. Desde la tabla DynamoDB, hasta el rol IAM, la Lambda y la configuración de API Gateway.
 
-    El formulario HTML envía los datos vía fetch() a una URL de API Gateway
+Pasos para desplegarlo:
 
-    API Gateway recibe la petición y la pasa a la función Lambda
+    Ejecutar terraform init y luego terraform apply para crear todos los recursos
 
-    Lambda procesa los datos y los guarda en DynamoDB
+    Subir el contenido HTML y CSS al bucket S3 con aws s3 sync
 
-Todo esto está definido y desplegado con Terraform.
+    Obtener la URL de API Gateway desde Terraform output
 
-Despliegue paso a paso
+    Abrir el formulario desde el navegador y probar el registro
 
-    Ejecutar terraform init y luego terraform apply
+Este proyecto forma parte de mi portafolio como futuro administrador cloud y arquitecto de soluciones en AWS. Lo hice para demostrar que puedo trabajar con servicios serverless, automatizar toda la infraestructura con Terraform y aplicar buenas prácticas de seguridad, como el uso de IAM para permisos mínimos necesarios.
 
-    Subir el contenido estático (HTML y CSS) al bucket S3 con aws s3 sync
 
-    Obtener la URL de CloudFront desde Terraform output
-
-    Probar el registro desde el navegador
-
-Enlace al repositorio
-
-👉 https://github.com/Jdavid-cruz/lambda-s3-cloudfront-api (una vez creado)
-
-Objetivo
-
-Este proyecto es parte de mi portafolio como futuro Administrador Cloud y Arquitecto de Soluciones en AWS. Quise demostrar que sé trabajar con servicios serverless y puedo automatizar el despliegue completo con Terraform de una app funcional, segura y optimizada
