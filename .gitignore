@@ -1,0 +1,18 @@
+# Archivos sensibles 
+.env
+
+# Archivos de Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Archivos varios
+__pycache__/
+*.pyc
+*.zip
+*.odt
+*.pdf
+
+# Archivos de configuración de VS Code (opcional)
+.vscode/
