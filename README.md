@@ -24,18 +24,6 @@ Tecnologías utilizadas:
 
     Python para escribir la función Lambda
 
-Estructura del proyecto:
-
-lambda-s3-api/
-├── index.html              -> Formulario principal
-├── styles.css              -> Estilos del formulario
-├── error.html              -> Vista en caso de fallo
-├── success.html            -> Vista en caso de éxito
-├── lambda_function.py      -> Código de la función Lambda en Python
-├── main.tf                 -> Infraestructura escrita en Terraform
-├── .gitignore              -> Archivos que no deben subirse al repo
-└── README.md               -> Esta explicación
-
 Cómo funciona todo:
 
 El formulario envía los datos con fetch() a una URL de API Gateway. Esa URL está conectada con una función Lambda que toma los datos, los valida y los guarda en la tabla DynamoDB. Para que Lambda tenga permisos de acceso a la base de datos, le asocié un rol IAM con una política que permite hacer PutItem en la tabla.
