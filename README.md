@@ -40,6 +40,8 @@ Pasos para desplegarlo:
 
     Abrir el formulario desde el navegador y probar el registro
 
-Este proyecto forma parte de mi portafolio como futuro administrador cloud y arquitecto de soluciones en AWS. Lo hice para demostrar que puedo trabajar con servicios serverless, automatizar toda la infraestructura con Terraform y aplicar buenas prácticas de seguridad, como el uso de IAM para permisos mínimos necesarios.
+
+  El objetivo de este proyecto fue construir una arquitectura 100% serverless utilizando AWS Lambda, API Gateway, DynamoDB, S3 y CloudFront. La solución permite el registro y almacenamiento de usuarios sin servidores dedicados, aprovechando la escalabilidad automática y el bajo mantenimiento de los servicios gestionados. Es un ejemplo de cómo diseñar aplicaciones modernas, seguras y eficientes en la nube.
+
 
 
